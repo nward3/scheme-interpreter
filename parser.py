@@ -1,5 +1,7 @@
 #!/usr/bin/python
 import collections
+import math
+import operator as op
 
 class Parser:
 
@@ -19,7 +21,29 @@ class Parser:
 
     def createSublistsHelper(self, tokens, sublists):
         print tokens
+	
+	# maps potential scheme variables to their values
+	def tokenMapper():
+		mapper = dict()
+		mapper.update(vars(math)) # adds functions like sin, cos, etc
+		mapper.update({
+			'+': op.add,
+			'-': op.sub,
+			'*': op.mul,
+			'/': op.div,
+			'<': op.lt,
+			'<=': op.le,
+			'>': op.gt,
+			'>=': op.ge,
+			'=': op.eq,
+			'car': lambda x: x[0],
+			'cdr': lambda x: x[1:],
+			'cons': lambda x, y: [x] + y,
+			'equal?': op.eq,
+			'null?': lambda x: x == [],
+		})
 
+		return mapper
 
 if __name__ == "__main__":
     p = Parser()
@@ -27,3 +51,4 @@ if __name__ == "__main__":
     print s
     tokens = p.tokenizeInput(s)
     p.createSublists(tokens)
+
