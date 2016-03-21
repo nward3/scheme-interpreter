@@ -45,6 +45,16 @@ class Parser:
 
 		return mapper
 
+	# determines the type of a token
+	def determineTokenType(token):
+		try:
+			return int(token)
+		except ValueError:
+			try:
+				return float(token)
+			except:
+				return str(token)
+
 if __name__ == "__main__":
     p = Parser()
     s = "(display (eq? 5 a))"
