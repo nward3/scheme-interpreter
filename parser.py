@@ -47,6 +47,20 @@ class Parser:
             sublists.append(self.determineTokenType(token))
             return self.createSublistsHelper(tokens, sublists)
 
+    # convert nested array structure back to parenthesis
+    def convertToParens(self, sublists):
+        parenStr = '('
+        for x in sublists:
+            if isinstance(x, list):
+                parenStr = parenStr + self.convertToParens(x)
+            else:
+                parenStr = parenStr + str(x) + ' '
+
+        # add ending paren, and remove the space that preceeds it
+        parenStr = parenStr[0:-1] + ')'
+
+        return parenStr
+
     # determines the type of a token
     def determineTokenType(self, token):
         try:

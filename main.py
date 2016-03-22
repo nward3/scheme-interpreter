@@ -8,4 +8,5 @@ if __name__ == "__main__":
     tokens = p.tokenizeInput(s)
     print p.createSublists(tokens)
     i = Interpreter()
-    print i.interpret(p.createSublists(tokens))
+    result = i.interpret(p.createSublists(tokens))
+    print p.convertToParens(result)
