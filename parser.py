@@ -21,7 +21,8 @@ class Parser:
         sublists = self.createSublistsHelper(collections.deque(tokens), [])
 
         # desired contents are nested inside an outer array
-        return sublists[0]
+        # call quotify to handle ' tokens, which indicate to handle list literally
+        return self.quotify(sublists[0])
 
     # tokens is a deque for optimized pop(0) operation
     # sublists is a list
@@ -47,8 +48,32 @@ class Parser:
             sublists.append(self.determineTokenType(token))
             return self.createSublistsHelper(tokens, sublists)
 
+    # look for ' tokens: replace ' and nextToken with a single list: [', nextToken]
+    def quotify(self, sublists):
+        newSublists = []
+        isQuote = False
+        for x in sublists:
+            if x == "'":
+                isQuote = True
+            elif isQuote == True:
+                # previous element was a single quote
+                newSublists.append(["'", x])
+                isQuote = False
+            elif isinstance(x, list):
+                newSublists.append(self.quotify(x))
+            else:
+                newSublists.append(x)
+
+        if isQuote == True:
+            raise Exception("Improper use of single quote")
+
+        return newSublists
+
     # convert nested array structure back to parenthesis
     def convertToParens(self, sublists):
+        if not isinstance(sublists, list):
+            return sublists
+
         parenStr = '('
         for x in sublists:
             if isinstance(x, list):

@@ -1,0 +1,1 @@
+(car (cdr (cdr '(turkey (gravy) (stuffing potatoes ham) peas))))
