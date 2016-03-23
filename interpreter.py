@@ -39,10 +39,6 @@ class Interpreter:
         # checks if tokens is a literal
         elif not isinstance(tokens, list):
             return tokens
-        # ignores the quote and interprets the rest as a literal expression
-        elif tokens[0] == "'":
-            (_, expression) = tokens
-            return expression
         # defines a new scheme function
         elif tokens[0] == 'define':
             (_, variable, value) = tokens
