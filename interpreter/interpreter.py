@@ -47,9 +47,16 @@ class Interpreter:
         elif tokens[0] == 'define':
             (_, variable, value) = tokens
             self.mapper[variable] = self.interpret(value)
+        elif tokens[0] == 'display':
+            if len(tokens) > 2:
+                raise InterpretError("Too many arguments passed to display")
+            (_, expression) = tokens
+            return self.interpret(expression)
         # splits tokens into the scheme function and its arugments
         else:
             process = self.interpret(tokens[0])
             args = [self.interpret(token) for token in tokens[1:]]
             return process(*args)
 
+class InterpretError(Exception):
+    pass
