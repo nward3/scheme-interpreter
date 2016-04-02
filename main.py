@@ -3,12 +3,11 @@ from parser import *
 from interpreter import *
 
 if __name__ == "__main__":
+    interpreter = Interpreter()
+    parser = Parser()
 
     # function that processes code using parser and interpreter modules
     def interpretExpression(code):
-        parser = Parser()
-        interpreter = Interpreter()
-
         # parse the input
         tokensSublists = parser.parse(code)
 
@@ -51,7 +50,9 @@ if __name__ == "__main__":
             try:
                 sys.stdout.write('>> ')
                 code = raw_input()
-                print interpretExpression(code)
+                result = interpretExpression(code)
+                if result != None:
+                    print result
             except EOFError:
                 sys.exit(0)
             except KeyboardInterrupt:
