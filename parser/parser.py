@@ -111,6 +111,15 @@ class Parser:
             except:
                 return str(token)
 
+    # returns True/False if the parens in the input string are balanced
+    # don't throw an error if parens aren't balanced
+    def hasBalancedParensNoThrow(self, inputStr):
+        try:
+            self.hasBalancedParens(inputStr)
+            return True
+        except ParseError as ex:
+            return False
+
     # returns True if string has balanced parens
     # raises ParseError if string's parens are not balanced 
     def hasBalancedParens(self, inputStr):

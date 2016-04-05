@@ -1,0 +1,2 @@
+(define q '(turkey (gravy) (stuffing potatoes ham) peas))
+(car (cdr (cdr q)))
