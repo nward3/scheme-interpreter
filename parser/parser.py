@@ -19,6 +19,8 @@ class Parser:
     def tokenizeInput(self, code):
         # add whitespace around parens and single quote so they can be split correctly
         code = code.replace("(", " ( ").replace(")", " ) ").replace("'", " ' ")
+        # remove leading and trailing whitespace
+        code = code.strip()
         tokens = list()
         for token in code.split():
             tokens.append(token)

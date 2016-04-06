@@ -31,7 +31,7 @@ if __name__ == "__main__":
             try:
                 with open(filename, 'r') as f:
                     for line in f:
-                        s = s + line.rstrip()
+                        s = s + line.rstrip() + " "
 
                 return s
 
@@ -69,6 +69,8 @@ if __name__ == "__main__":
                         expression = ""
             
             # add this invalid expression to the list to be evaluated so that the error is displayed
+            # strip trailing and leading whitespace
+            expression = expression.strip()
             if expression != "":
                 listOfExpressions.append(expression)
 
@@ -82,8 +84,15 @@ if __name__ == "__main__":
         # prompt user for input until user presses ctrl+c or ctrl+d
         while(True):
             try:
+                # display prompt
                 sys.stdout.write('>> ')
-                code = raw_input()
+                code = ""
+
+                # accept user input until the input has balanced parens
+                while (code == "" or not parser.hasBalancedParensNoThrow(code)):
+                    s = raw_input()
+                    code += s.rstrip() + " "
+
                 result = interpretExpression(code)
                 if result != None:
                     print result
