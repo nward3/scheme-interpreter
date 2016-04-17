@@ -1,0 +1,2 @@
+(define add (lambda (x y) (+ x y)))
+(display (add 2 7))
