@@ -92,7 +92,7 @@ class Interpreter:
         elif tokens[0] == 'define':
             # TODO: check that len(tokens) == 2
             (_, name, value) = tokens
-            env[name] = self.interpret(value)
+            env[name] = self.interpret(value, env)
         elif tokens[0] == 'lambda':
             # TODO: check that len(tokens) == 2
             (_, params, functionTemplate) = tokens
