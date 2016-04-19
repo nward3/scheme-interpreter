@@ -42,6 +42,7 @@ def tokenMapper():
         'equal?': op.eq,
         'list': lambda *x: [symbol for symbol in x],
         'list?': lambda x: isinstance(x, list),
+        'not': op.not_,
         'null?': lambda x: x == [],
         'number?': lambda x: x == int(x) or x == float(x),
         'else': True
@@ -68,6 +69,36 @@ def executeCond(expressions, env):
         # execute first true condition
         elif interpreter.interpret(exp1, env) == True:
             return interpreter.interpret(exp2, env)
+
+# logical AND: returns true if all expressions are true; false otherwise
+def executeAnd(expressions, env):
+    interpreter = Interpreter()
+
+    # improper number of arguments
+    if len(expressions) < 2:
+        return InterpretError()
+
+    # check that every expression is true using short-circuit logic
+    for exp in expressions:
+        if not interpreter.interpret(exp, env):
+            return False
+
+    return True
+
+# logical OR: returns true if any expression is true; false otherwise
+def executeOr(expressions, env):
+    interpreter = Interpreter()
+
+    # improper number of arguments
+    if len(expressions) < 2:
+        return InterpretError()
+
+    # check if any expression is true using short-circuit logic
+    for exp in expressions:
+        if interpreter.interpret(exp, env):
+            return True
+
+    return False
 
 class UserFunction(object):
     # save the params, body (function template), and the function's parent environment
@@ -125,14 +156,23 @@ class Interpreter:
             for token in tokens[1:]:
                 for expression in token:
                     expressions.append(expression)
-
             return executeCond(expressions, env)
+        elif tokens[0] == 'and':
+            expressions = []
+            for expression in tokens[1:]:
+                expressions.append(expression)
+            return executeAnd(expressions, env)
+        elif tokens[0] == 'or':
+            expressions = []
+            for expression in tokens[1:]:
+                expressions.append(expression)
+            return executeOr(expressions, env)
         elif tokens[0] == 'display':
             if len(tokens) > 2:
                 raise InterpretError("Too many arguments passed to display")
             (_, expression) = tokens
             return self.interpret(expression)
-        # splits tokens into the scheme function and its arugments
+        # splits tokeins into the scheme function and its arugments
         else:
             process = self.interpret(tokens[0], env)
             args = [self.interpret(token, env) for token in tokens[1:]]

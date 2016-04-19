@@ -1,0 +1,5 @@
+(or
+	(equal? 0 1)
+	(equal? 1 0)
+	(equal? -1 1)
+)
