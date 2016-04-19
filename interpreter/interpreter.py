@@ -43,11 +43,31 @@ def tokenMapper():
         'list': lambda *x: [symbol for symbol in x],
         'list?': lambda x: isinstance(x, list),
         'null?': lambda x: x == [],
-        'number?': lambda x: x == int(x) or x == float(x)
+        'number?': lambda x: x == int(x) or x == float(x),
+        'else': True
         })
     return mapper
 
 globalEnvironment = tokenMapper()
+
+# evaluate 1st expression in pair of expressions until one is true
+# execute 2nd expression for the pair with a true first expression
+def executeCond(expressions, env):
+    interpreter = Interpreter()
+
+    # improper number of arguments
+    if len(expressions) % 2 != 0:
+        return InterpretError()
+
+    # create pairs of expressions:
+    # 1st expression is truth condition, 2nd expression is expressi2on to evaluate
+    for exp1,exp2 in zip(expressions[0::2], expressions[1::2]):
+        # improper structure; else clause must be last condition to evaluate
+        if exp1 == 'else' and exp1 != expressions[-2]:
+            return InterpretError()
+        # execute first true condition
+        elif interpreter.interpret(exp1, env) == True:
+            return interpreter.interpret(exp2, env)
 
 class UserFunction(object):
     # save the params, body (function template), and the function's parent environment
@@ -99,6 +119,14 @@ class Interpreter:
 
             # return a UserFunction that will be called later when the args are passed
             return UserFunction(params, functionTemplate, env)
+        # executes expression after first true expression
+        elif tokens[0] == 'cond':
+            expressions = []
+            for token in tokens[1:]:
+                for expression in token:
+                    expressions.append(expression)
+
+            return executeCond(expressions, env)
         elif tokens[0] == 'display':
             if len(tokens) > 2:
                 raise InterpretError("Too many arguments passed to display")
