@@ -1,0 +1,4 @@
+(cond
+	((equal? 1 1) (display true))
+	(else (display false))
+)

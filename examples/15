@@ -1,0 +1,4 @@
+(cond
+	(else (display 1stShouldNotDisplay))
+	((equal? 0 0) (display shouldNotDisplay))
+)

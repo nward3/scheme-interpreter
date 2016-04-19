@@ -1,0 +1,7 @@
+(cond
+	((number? 0) 
+		(cond 
+			((equal? 1 0) (display innerCond))
+			(else (display innerCondElse))))
+	(else (display outerCond))
+)
