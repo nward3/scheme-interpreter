@@ -1,0 +1,12 @@
+(define add1 (lambda (x) (+ x 1)))
+(define sub1 (lambda (x) (- x 1)))
+
+(define double
+  (lambda (n)
+        (cond
+          ((equal? n 0) 0)
+          (else (add1 (add1 (double (sub1 n))))))))
+
+(display (double 9))
+
+(display (double 25))
