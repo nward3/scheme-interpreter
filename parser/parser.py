@@ -114,13 +114,32 @@ class Parser:
                 return str(token)
 
     # returns True/False if the parens in the input string are balanced
-    # don't throw an error if parens aren't balanced
-    def hasBalancedParensNoThrow(self, inputStr):
-        try:
-            self.hasBalancedParens(inputStr)
+    # don't throw an error if waiting for closing parens
+    # throws an error if an invalid closing paren is encountered
+    def hasBalancedParensWaitForCompletion(self, inputStr):
+        # increase match count upon '('
+        # decrease match count upon ')'
+        matchCount = 0
+        charCount = 0
+
+        for char in inputStr:
+            charCount += 1
+
+            if char == '(':
+                matchCount += 1
+            elif char == ')':
+                matchCount -= 1
+
+            if matchCount < 0:
+                raise ParseError("Invalid ) at position " + str(charCount) + " in code: " + inputStr)
+
+        if matchCount == 0:
             return True
-        except ParseError as ex:
+        elif matchCount > 0:
+            # don't raise an error here, in case the closing parens haven't been entered yet
             return False
+        elif matchCount < 0:
+            raise ParseError("Parens are not balanced in code: " + inputStr)
 
     # returns True if string has balanced parens
     # raises ParseError if string's parens are not balanced 

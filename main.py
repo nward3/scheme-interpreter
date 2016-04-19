@@ -61,7 +61,7 @@ if __name__ == "__main__":
                 expression += char
                 if char == "(" or char == ")":
                     # check if the parens are balanced. if so, current string is a complete expression
-                    if parser.hasBalancedParensNoThrow(expression):
+                    if parser.hasBalancedParensWaitForCompletion(expression):
                         # add current expression to list of expressions to evaluate
                         listOfExpressions.append(expression)
 
@@ -86,10 +86,11 @@ if __name__ == "__main__":
             try:
                 # display prompt
                 sys.stdout.write('>> ')
+
                 code = ""
 
                 # accept user input until the input has balanced parens
-                while (code == "" or not parser.hasBalancedParensNoThrow(code)):
+                while (code == "" or not parser.hasBalancedParensWaitForCompletion(code)):
                     s = raw_input()
                     code += s.rstrip() + " "
 
