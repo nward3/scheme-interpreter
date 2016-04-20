@@ -1,0 +1,8 @@
+
+(define add-curry
+  (lambda (a)
+  	(lambda (b)
+  	  (+ a b)
+)))
+
+(display ((add-curry 7) 10))
