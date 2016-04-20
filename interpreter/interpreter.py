@@ -44,7 +44,7 @@ def tokenMapper():
         'list?': lambda x: isinstance(x, list),
         'not': op.not_,
         'null?': lambda x: x == [],
-        'number?': lambda x: x == int(x) or x == float(x),
+        'number?': lambda x: isNumber(x),
         'else': True
         })
     return mapper
@@ -99,6 +99,18 @@ def executeOr(expressions, env):
             return True
 
     return False
+
+# determines if argument is a number
+def isNumber(arg):
+    try:
+        int(arg)
+        return True
+    except:
+        try:
+            float(arg)
+            return True
+        except:
+            return False
 
 class UserFunction(object):
     # save the params, body (function template), and the function's parent environment
