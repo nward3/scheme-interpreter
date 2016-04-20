@@ -22,7 +22,7 @@ to the interpreter. Once the program is started, it will run the input file thro
 parser and then the interpreter. After these two steps are completed, the evaluated Scheme
 expression is output to the user.
 
-Example scheme code has been included in the examples folder, in files 1-20. The example code can be used as follows: python main.py examples/[1-20]
+Example scheme code has been included in the examples folder, in files 1-21. The example code can be used as follows: python main.py examples/[1-21]
 
 The scheme interpreter also supports interactive mode by running: python main.py and then typing expressions, one line at a time.
 The interpreter provides errors for code that contains unbalanced parenthesis, and will give basic ParseErrors and InterpretErrors as appropriate.
